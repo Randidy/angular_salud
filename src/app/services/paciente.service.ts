@@ -8,33 +8,49 @@ import { PacienteRequest } from '../models/paciente-request';
 })
 export class PacienteService {
 
-private apiUrl = 'http://localhost:8081/api/admin';
-
+  private apiUrl = 'http://localhost:8081/api/admin/pacientes'; 
+    private apedit ='http://localhost:8081/admin/paciente/${id}';
 
   constructor(private http: HttpClient) {}
 
+  // Crear paciente
+  registrarPaciente(request: PacienteRequest): Observable<any> {
+    const token = localStorage.getItem('token') || '';
+    return this.http.post<any>(this.apiUrl, request, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+  }
+
+  // Actualizar paciente
+  actualizarPaciente(id: number, request: any): Observable<any> {
+    const token = localStorage.getItem('token') || '';
+    return this.http.put<any>(`${this.apedit}/${id}`, request, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+  }
   
 
- // Crear paciente
-  registrarPaciente(request: PacienteRequest): Observable<any> {
-    return this.http.post<any>(this.apiUrl, request);
-  }
-
-actualizarPaciente(id: number, request: any) {
-  const token = localStorage.getItem('token'); 
-  return this.http.put<any>(`${this.apiUrl}/pacientes/${id}`, request, {
-    headers: { Authorization: `Bearer ${token}` }
-  });
-}
-
   // Obtener paciente por id
-  obtenerPaciente(id: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/${id}`);
-  }
-
-eliminarPaciente(pacienteId: number, token: string) {
-  return this.http.delete(`http://localhost:8081/api/admin/pacientes/${pacienteId}`, {
+ obtenerPacienteCompleto(id: number): Observable<any> {
+  const token = localStorage.getItem('token') || '';
+  return this.http.get<any>(`http://localhost:8081/admin/paciente/${id}`, {
     headers: { Authorization: `Bearer ${token}` }
   });
 }
+
+  // Eliminar paciente
+  eliminarPaciente(id: number): Observable<any> {
+    const token = localStorage.getItem('token') || '';
+    return this.http.delete<any>(`${this.apiUrl}/${id}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+  }
+
+  // Listar todos los pacientes
+  getAllPacientes(): Observable<any> {
+    const token = localStorage.getItem('token') || '';
+    return this.http.get<any>(this.apiUrl, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+  }
 }

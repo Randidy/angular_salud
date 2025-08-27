@@ -3,8 +3,8 @@ export interface PacienteRequest {
   email: string;
   password: string;
   numeroIdentificacion: string;
-  fechaNacimiento: string; // yyyy-MM-dd
+  fechaNacimiento: string; // formato yyyy-MM-dd
   telefono?: string;
   direccion?: string;
-  alergiaIds?: number[];
+  alergiaIds?: number[]; // opcional
 }

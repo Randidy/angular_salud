@@ -24,22 +24,17 @@ const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-    { path: 'admin/pacientes/editar/:id', component: PacienteEditarComponent },
+  
+
 
 
 // Admin Routes
-{
-  path: 'admin/pacientes/editar/:id',
-  component: PacienteEditarComponent,
-  canActivate: [AuthGuard]
-},
 {
   path: 'admin/dashboard',
   component: AdminDashboardComponent,
   canActivate: [AuthGuard],
   data: { roles: [UserRole.ADMIN] }
 },
-
 {
   path: 'admin/pacientes',
   component: AdminPacientesComponent,
@@ -52,14 +47,15 @@ const routes: Routes = [
   canActivate: [AuthGuard],
   data: { roles: [UserRole.ADMIN] }
 },
+{ path: 'admin/pacientes/editar/:id', component: PacienteEditarComponent },
 {
-  path: 'admin/usuarios',     // 👈 listado de administradores
+  path: 'admin/usuarios',
   component: AdminUsuariosListComponent,
   canActivate: [AuthGuard],
   data: { roles: [UserRole.ADMIN] }
 },
 {
-  path: 'admin/usuarios/nuevo',   // 👈 formulario para crear nuevo admin
+  path: 'admin/usuarios/nuevo',
   component: AdminUsuariosFormComponent,
   canActivate: [AuthGuard],
   data: { roles: [UserRole.ADMIN] }

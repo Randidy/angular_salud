@@ -22,46 +22,50 @@ export class PacienteEditarComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute
   ) {
+    // Agregar el email al FormGroup
     this.pacienteForm = this.fb.group({
       nombre: ['', Validators.required],
       numeroIdentificacion: ['', Validators.required],
       fechaNacimiento: ['', Validators.required],
       telefono: [''],
-      direccion: ['']
+      direccion: [''],
+      email: ['', [Validators.required, Validators.email]]  // Email del usuario
     });
   }
 
   ngOnInit(): void {
-  const id = this.route.snapshot.paramMap.get('id');
-  if (id) {
-    this.pacienteService.obtenerPaciente(+id).subscribe(paciente => {
-      this.pacienteForm.patchValue(paciente);
-    });
+    const idParam = this.route.snapshot.paramMap.get('id');
+    if (idParam) {
+      this.pacienteId = +idParam;
+      this.loadPaciente();
+    }
   }
-}
 
-  cargarPaciente() {
-    this.pacienteService.obtenerPaciente(this.pacienteId).subscribe({
-      next: (paciente) => {
+  private loadPaciente(): void {
+    this.pacienteService.obtenerPacienteCompleto(this.pacienteId).subscribe({
+      next: (res) => {
+        const paciente = res.data;
         this.pacienteForm.patchValue({
           nombre: paciente.nombre,
           numeroIdentificacion: paciente.numeroIdentificacion,
           fechaNacimiento: paciente.fechaNacimiento,
           telefono: paciente.telefono,
-          direccion: paciente.direccion
+          direccion: paciente.direccion,
+          email: paciente.usuario?.email  // Cargar el email del usuario
         });
         this.isLoading = false;
       },
       error: (err) => {
-        this.errorMessage = 'Error al cargar paciente';
+        this.errorMessage = err.error?.message || 'Error al cargar paciente';
         this.isLoading = false;
       }
     });
   }
 
-  actualizarPaciente() {
+  actualizarPaciente(): void {
     if (this.pacienteForm.invalid) {
       this.errorMessage = 'Completa los campos obligatorios';
+      this.successMessage = '';
       return;
     }
 
@@ -77,6 +81,4 @@ export class PacienteEditarComponent implements OnInit {
       }
     });
   }
-
-
 }
