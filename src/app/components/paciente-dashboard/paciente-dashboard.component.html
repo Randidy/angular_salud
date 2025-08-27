@@ -1,0 +1,63 @@
+<div class="app-header" style="background: #1976d2;">
+  <div class="container">
+    <h1>
+      <i class="fas fa-hospital"></i>
+      Salud Vital - Paciente
+    </h1>
+    <a href="#" (click)="logout()" class="logout-btn" style="color: #1976d2;">
+      <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+    </a>
+  </div>
+</div>
+
+<div class="container">
+  <h2 class="text-center mt-4 mb-4">Bienvenido, {{ currentUser?.name }}</h2>
+
+  <div class="dashboard-grid">
+    <!-- Solicitar Cita -->
+    <a routerLink="/paciente/citas/nueva" class="dashboard-card">
+      <i class="fas fa-calendar-plus" style="color: #1976d2;"></i>
+      <h3>Solicitar Cita</h3>
+      <p>Programa una nueva cita médica</p>
+    </a>
+
+    <!-- Mis Citas -->
+    <a routerLink="/paciente/citas" class="dashboard-card">
+      <i class="fas fa-calendar-check" style="color: #1976d2;"></i>
+      <h3>Mis Citas</h3>
+      <p>Revisa tus citas médicas programadas</p>
+    </a>
+
+    <!-- Mis Recetas -->
+    <a routerLink="/paciente/recetas" class="dashboard-card">
+      <i class="fas fa-file-medical" style="color: #1976d2;"></i>
+      <h3>Mis Recetas</h3>
+      <p>Consulta tus recetas médicas</p>
+    </a>
+
+    <!-- Mi Expediente -->
+    <a routerLink="/paciente/expediente" class="dashboard-card">
+      <i class="fas fa-notes-medical" style="color: #1976d2;"></i>
+      <h3>Mi Expediente</h3>
+      <p>Revisa tu historial médico completo</p>
+    </a>
+
+    <!-- Mi Perfil -->
+    <a routerLink="/paciente/perfil" class="dashboard-card">
+      <i class="fas fa-user" style="color: #1976d2;"></i>
+      <h3>Mi Perfil</h3>
+      <p>Ver y actualizar información personal</p>
+    </a>
+
+    <!-- Médicos Disponibles -->
+    <a routerLink="/paciente/medicos" class="dashboard-card">
+      <i class="fas fa-user-md" style="color: #1976d2;"></i>
+      <h3>Médicos Disponibles</h3>
+      <p>Ver especialistas disponibles</p>
+    </a>
+  </div>
+</div>
+
+<div class="app-footer">
+  © 2025 Salud Vital - Panel del Paciente
+</div>

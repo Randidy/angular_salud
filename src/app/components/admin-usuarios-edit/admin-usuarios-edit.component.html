@@ -1,0 +1,130 @@
+<div class="form-container">
+  <h2><i class="fas fa-user-edit"></i> Editar Administrador</h2>
+
+  <div *ngIf="mensaje" class="message">{{ mensaje }}</div>
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <label><i class="fas fa-user"></i> Nombre:</label>
+    <input type="text" formControlName="nombre" required>
+
+    <label><i class="fas fa-envelope"></i> Correo electrónico:</label>
+    <input type="email" formControlName="email" required>
+
+    <label><i class="fas fa-lock"></i> Contraseña (opcional):</label>
+    <input type="password" formControlName="password">
+
+    <button type="submit"><i class="fas fa-save"></i> Guardar cambios</button>
+  </form>
+
+  <div class="btn-group">
+    <a routerLink="/admin/usuarios" class="btn btn-back"><i class="fas fa-arrow-left"></i> Volver</a>
+  </div>
+</div>
+<style>
+/* Formulario galáctico */
+.form-container {
+  background: rgba(20,20,40,0.85);
+  padding: 30px 25px;
+  border-radius: 20px;
+  max-width: 500px;
+  margin: 30px auto;
+  box-shadow: 0 0 15px rgba(0,229,255,0.3);
+  color: #fff;
+}
+
+/* Título */
+h2 {
+  color: #00e5ff;
+  margin-bottom: 25px;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* Labels */
+label {
+  display: block;
+  margin-top: 15px;
+  font-weight: bold;
+  color: #00b8d4;
+}
+
+/* Inputs */
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px 12px;
+  margin-top: 5px;
+  border: 1px solid rgba(0,229,255,0.5);
+  border-radius: 10px;
+  background: rgba(0,0,0,0.2);
+  color: #fff;
+  font-size: 15px;
+  transition: all 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+  border-color: #00e5ff;
+  box-shadow: 0 0 10px #00e5ff;
+  outline: none;
+}
+
+/* Mensajes */
+.message {
+  margin: 15px 0;
+  color: #4caf50;
+  font-weight: bold;
+}
+
+.error {
+  margin: 15px 0;
+  color: #ff5252;
+  font-weight: bold;
+}
+
+/* Botones */
+button[type="submit"] {
+  background-color: #00b8d4;
+  color: #fff;
+  padding: 12px 18px;
+  margin-top: 20px;
+  border: none;
+  border-radius: 50px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 0 10px #00e5ff;
+  transition: all 0.3s;
+}
+
+button[type="submit"]:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px #00e5ff, 0 0 30px #00b8d4;
+}
+
+/* Grupo de botones */
+.btn-group {
+  margin-top: 25px;
+  display: flex;
+  gap: 10px;
+}
+
+/* Botón volver */
+.btn-back {
+  background-color: #555;
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s;
+  box-shadow: 0 0 10px rgba(0,229,255,0.3);
+}
+
+.btn-back:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(0,229,255,0.5);
+}
+</style>

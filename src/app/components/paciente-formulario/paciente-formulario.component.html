@@ -1,0 +1,85 @@
+<div class="container mt-4">
+  <div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+      <h3>Registrar Nuevo Paciente</h3>
+    </div>
+    <div class="card-body">
+      
+      <!-- Mensajes -->
+      <div *ngIf="successMessage" class="alert alert-success">
+        ✅ {{ successMessage }}
+      </div>
+      <div *ngIf="errorMessage" class="alert alert-danger">
+        ❌ {{ errorMessage }}
+      </div>
+
+      <form [formGroup]="pacienteForm" (ngSubmit)="registrarPaciente()">
+
+        <!-- Nombre -->
+        <div class="mb-3">
+          <label for="nombre" class="form-label">Nombre</label>
+          <input type="text" id="nombre" formControlName="nombre" class="form-control" placeholder="Nombre completo">
+          <div *ngIf="pacienteForm.get('nombre')?.touched && pacienteForm.get('nombre')?.invalid" class="text-danger">
+            Nombre es obligatorio
+          </div>
+        </div>
+
+        <!-- Número de Identificación -->
+        <div class="mb-3">
+          <label for="numeroIdentificacion" class="form-label">Número de Identificación</label>
+          <input type="text" id="numeroIdentificacion" formControlName="numeroIdentificacion" class="form-control" placeholder="DNI o ID">
+          <div *ngIf="pacienteForm.get('numeroIdentificacion')?.touched && pacienteForm.get('numeroIdentificacion')?.invalid" class="text-danger">
+            Número de identificación es obligatorio
+          </div>
+        </div>
+
+        <!-- Fecha de Nacimiento -->
+        <div class="mb-3">
+          <label for="fechaNacimiento" class="form-label">Fecha de Nacimiento</label>
+          <input type="date" id="fechaNacimiento" formControlName="fechaNacimiento" class="form-control">
+          <div *ngIf="pacienteForm.get('fechaNacimiento')?.touched && pacienteForm.get('fechaNacimiento')?.invalid" class="text-danger">
+            Fecha de nacimiento es obligatoria
+          </div>
+        </div>
+
+        <!-- Teléfono -->
+        <div class="mb-3">
+          <label for="telefono" class="form-label">Teléfono</label>
+          <input type="text" id="telefono" formControlName="telefono" class="form-control" placeholder="Opcional">
+        </div>
+
+        <!-- Dirección -->
+        <div class="mb-3">
+          <label for="direccion" class="form-label">Dirección</label>
+          <input type="text" id="direccion" formControlName="direccion" class="form-control" placeholder="Opcional">
+        </div>
+
+        <!-- Email -->
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" id="email" formControlName="email" class="form-control" placeholder="ejemplo@correo.com">
+          <div *ngIf="pacienteForm.get('email')?.touched && pacienteForm.get('email')?.invalid" class="text-danger">
+            Ingresa un email válido
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div class="mb-3">
+          <label for="password" class="form-label">Contraseña</label>
+          <input type="password" id="password" formControlName="password" class="form-control" placeholder="Contraseña">
+          <div *ngIf="pacienteForm.get('password')?.touched && pacienteForm.get('password')?.invalid" class="text-danger">
+            Contraseña es obligatoria
+          </div>
+        </div>
+
+        <!-- Alergias -->
+        <div class="mb-3">
+          <label for="alergiaIds" class="form-label">Alergias</label>
+          <input type="text" id="alergiaIds" formControlName="alergiaIds" class="form-control" placeholder="IDs separados por comas (opcional)">
+        </div>
+
+        <button type="submit" class="btn btn-success w-100">Registrar Paciente</button>
+      </form>
+    </div>
+  </div>
+</div>

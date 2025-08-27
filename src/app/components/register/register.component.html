@@ -1,0 +1,152 @@
+<div class="register-container">
+  <div class="register-card">
+    <h2>Registro de Paciente</h2>
+
+    <!-- Messages -->
+    <div *ngIf="errorMessage" class="alert alert-error">
+      <i class="fas fa-exclamation-circle"></i>
+      {{ errorMessage }}
+    </div>
+
+    <div *ngIf="successMessage" class="alert alert-success">
+      <i class="fas fa-check-circle"></i>
+      {{ successMessage }}
+    </div>
+
+    <!-- Registration Form -->
+    <form [formGroup]="registerForm" (ngSubmit)="onRegister()" novalidate>
+      
+      <!-- Nombre -->
+      <div class="form-group">
+        <label for="nombre">Nombre:</label>
+        <input 
+          type="text" 
+          id="nombre" 
+          formControlName="nombre"
+          class="form-control"
+          [class.is-invalid]="registerForm.get('nombre')?.invalid && registerForm.get('nombre')?.touched"
+          placeholder="Ingrese su nombre completo">
+        <div *ngIf="registerForm.get('nombre')?.invalid && registerForm.get('nombre')?.touched" class="invalid-feedback">
+          <small *ngIf="registerForm.get('nombre')?.errors?.['required']">El nombre es requerido</small>
+        </div>
+      </div>
+
+      <!-- Número de Identificación -->
+      <div class="form-group">
+        <label for="numeroIdentificacion">Número de Identificación:</label>
+        <input 
+          type="text" 
+          id="numeroIdentificacion" 
+          formControlName="numeroIdentificacion"
+          class="form-control"
+          [class.is-invalid]="registerForm.get('numeroIdentificacion')?.invalid && registerForm.get('numeroIdentificacion')?.touched"
+          placeholder="Ingrese su número de identificación">
+        <div *ngIf="registerForm.get('numeroIdentificacion')?.invalid && registerForm.get('numeroIdentificacion')?.touched" class="invalid-feedback">
+          <small *ngIf="registerForm.get('numeroIdentificacion')?.errors?.['required']">El número de identificación es requerido</small>
+        </div>
+      </div>
+
+      <!-- Fecha de Nacimiento -->
+      <div class="form-group">
+        <label for="fechaNacimiento">Fecha de Nacimiento:</label>
+        <input 
+          type="date" 
+          id="fechaNacimiento" 
+          formControlName="fechaNacimiento"
+          class="form-control"
+          [class.is-invalid]="registerForm.get('fechaNacimiento')?.invalid && registerForm.get('fechaNacimiento')?.touched">
+        <div *ngIf="registerForm.get('fechaNacimiento')?.invalid && registerForm.get('fechaNacimiento')?.touched" class="invalid-feedback">
+          <small *ngIf="registerForm.get('fechaNacimiento')?.errors?.['required']">La fecha de nacimiento es requerida</small>
+        </div>
+      </div>
+
+      <!-- Teléfono -->
+      <div class="form-group">
+        <label for="telefono">Teléfono:</label>
+        <input 
+          type="tel" 
+          id="telefono" 
+          formControlName="telefono"
+          class="form-control"
+          placeholder="Ingrese su teléfono (opcional)">
+      </div>
+
+      <!-- Dirección -->
+      <div class="form-group">
+        <label for="direccion">Dirección:</label>
+        <input 
+          type="text" 
+          id="direccion" 
+          formControlName="direccion"
+          class="form-control"
+          placeholder="Ingrese su dirección (opcional)">
+      </div>
+
+      <!-- Email -->
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input 
+          type="email" 
+          id="email" 
+          formControlName="email"
+          class="form-control"
+          [class.is-invalid]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
+          placeholder="Ingrese su email">
+        <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="invalid-feedback">
+          <small *ngIf="registerForm.get('email')?.errors?.['required']">El email es requerido</small>
+          <small *ngIf="registerForm.get('email')?.errors?.['email']">Ingrese un email válido</small>
+        </div>
+      </div>
+
+      <!-- Password -->
+      <div class="form-group">
+        <label for="password">Contraseña:</label>
+        <input 
+          type="password" 
+          id="password" 
+          formControlName="password"
+          class="form-control"
+          [class.is-invalid]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
+          placeholder="Ingrese su contraseña">
+        <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="invalid-feedback">
+          <small *ngIf="registerForm.get('password')?.errors?.['required']">La contraseña es requerida</small>
+          <small *ngIf="registerForm.get('password')?.errors?.['minlength']">La contraseña debe tener al menos 6 caracteres</small>
+        </div>
+      </div>
+
+      <!-- Confirm Password -->
+      <div class="form-group">
+        <label for="confirmPassword">Confirmar Contraseña:</label>
+        <input 
+          type="password" 
+          id="confirmPassword" 
+          formControlName="confirmPassword"
+          class="form-control"
+          [class.is-invalid]="registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched"
+          placeholder="Confirme su contraseña">
+        <div *ngIf="registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched" class="invalid-feedback">
+          <small *ngIf="registerForm.get('confirmPassword')?.errors?.['required']">Debe confirmar la contraseña</small>
+          <small *ngIf="registerForm.errors?.['passwordMismatch']">Las contraseñas no coinciden</small>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="form-actions">
+        <button 
+          type="submit" 
+          class="btn btn-primary"
+          [disabled]="registerForm.invalid || isLoading"
+          [class.loading]="isLoading">
+          <span *ngIf="!isLoading">Registrarse</span>
+          <span *ngIf="isLoading">
+            <i class="fas fa-spinner fa-spin"></i> Registrando...
+          </span>
+        </button>
+        
+        <a routerLink="/login" class="btn btn-secondary">
+          Volver al login
+        </a>
+      </div>
+    </form>
+  </div>
+</div>

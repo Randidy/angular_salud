@@ -1,0 +1,341 @@
+/* Contenedor principal */
+.login-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e8f0f2, #f0f8ff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Fondo animado más visible */
+.login-container::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at center, rgba(0, 150, 136, 0.15), transparent 60%),
+              radial-gradient(circle at 20% 30%, rgba(0, 150, 136, 0.1), transparent 60%),
+              radial-gradient(circle at 80% 70%, rgba(0, 150, 136, 0.1), transparent 60%);
+  animation: rotateBG 25s linear infinite, moveBG 15s ease-in-out infinite alternate;
+  z-index: 0;
+}
+
+@keyframes rotateBG {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes moveBG {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(30px, 20px) rotate(180deg); }
+  100% { transform: translate(0, 0) rotate(360deg); }
+}
+
+/* Tarjeta de login */
+.login-card {
+  position: relative;
+  z-index: 1;
+  background: #ffffffee;
+  border-radius: 20px;
+  box-shadow: 0 12px 35px rgba(0,0,0,0.1);
+  display: flex;
+  width: 900px;
+  max-width: 95%;
+  overflow: hidden;
+  min-height: 500px;
+  transition: all 0.3s ease;
+}
+
+.login-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+}
+
+/* Lado izquierdo */
+.login-left {
+  background: linear-gradient(to bottom right, #009688, #00796b);
+  color: white;
+  width: 50%;
+  padding: 50px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  clip-path: polygon(0 0, 100% 0, 80% 100%, 0% 100%);
+}
+
+.login-left i {
+  font-size: 80px;
+  margin-bottom: 20px;
+  animation: float 4s ease-in-out infinite, heartbeat 1.2s infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  25% { transform: scale(1.2); }
+  50% { transform: scale(1); }
+  75% { transform: scale(1.2); }
+}
+
+.login-left h2 {
+  font-size: 30px;
+  margin: 0;
+  text-align: center;
+  font-weight: bold;
+  line-height: 1.3;
+}
+
+/* Lado derecho */
+.login-right {
+  width: 50%;
+  padding: 50px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login-right h2 {
+  color: #00796b;
+  margin-bottom: 30px;
+  text-align: center;
+  font-size: 26px;
+  font-weight: bold;
+}
+
+/* Formulario */
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #004d40;
+  font-size: 14px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 14px 18px;
+  border: 1px solid #b2dfdb;
+  border-radius: 12px;
+  font-size: 15px;
+  box-sizing: border-box;
+  background: #ffffffcc;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #00796b;
+  box-shadow: 0 0 12px rgba(0,150,136,0.2);
+}
+
+.form-control.is-invalid {
+  border-color: #e53935;
+}
+
+.invalid-feedback {
+  color: #e53935;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+/* Botones */
+.btn {
+  padding: 14px 20px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  margin-top: 12px;
+}
+
+.btn-primary {
+  background-color: #00796b;
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: #004d40;
+  transform: translateY(-2px);
+}
+
+.btn:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Mensajes */
+.alert {
+  padding: 12px 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.alert-error {
+  background-color: #ffebee;
+  border: 1px solid #e53935;
+  color: #c62828;
+}
+
+.alert-success {
+  background-color: #e0f7e9;
+  border: 1px solid #4caf50;
+  color: #2e7d32;
+}
+
+/* Extra links */
+.extra-links {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.extra-links a {
+  color: #00796b;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.extra-links a:hover {
+  text-decoration: underline;
+}
+
+/* Usuarios de prueba - estilo botones */
+.test-users {
+  margin-top: 25px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 15px;
+  background-color: #f1f9f8;
+  border-radius: 12px;
+  border: 1px solid #c8e6c9;
+  justify-content: center;
+}
+
+.test-users h4 {
+  width: 100%;
+  margin: 0 0 12px 0;
+  color: #004d40;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Botones de usuarios de prueba mejorados y alargados */
+.test-user {
+  flex: 1 1 80%;
+  max-width: 400px;
+  padding: 12px 20px;
+  background-color: white;
+  border: 1px solid #b2dfdb;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: left;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+}
+
+.test-user i {
+  font-size: 20px;
+  color: #00796b;
+  min-width: 24px;
+}
+
+.test-user strong {
+  color: #00796b;
+  font-size: 16px;
+}
+
+.test-user span {
+  font-weight: normal;
+  color: #004d40;
+  font-size: 13px;
+}
+
+.test-user:hover {
+  background-color: #e0f7f1;
+  border-color: #00796b;
+  transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .login-card {
+    flex-direction: column;
+    width: 100%;
+    min-height: auto;
+  }
+
+  .login-left,
+  .login-right {
+    width: 100%;
+  }
+
+  .login-left {
+    padding: 30px;
+    min-height: 180px;
+    clip-path: none;
+  }
+
+  .login-left i {
+    font-size: 60px;
+  }
+
+  .login-left h2 {
+    font-size: 22px;
+  }
+
+  .login-right {
+    padding: 30px;
+  }
+
+  /* Botones de prueba más largos en móvil */
+  .test-user {
+    flex: 1 1 100%;
+    max-width: 100%;
+    padding: 14px 18px;
+    font-size: 15px;
+    gap: 10px;
+  }
+
+  .test-user i {
+    font-size: 22px;
+  }
+
+  .test-user strong {
+    font-size: 17px;
+  }
+
+  .test-user span {
+    font-size: 14px;
+  }
+}

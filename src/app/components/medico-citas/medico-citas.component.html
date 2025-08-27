@@ -1,0 +1,112 @@
+<div class="medico-citas-container">
+  <!-- Header -->
+  <div class="header">
+    <div class="header-content">
+      <h1>
+        <i class="fas fa-calendar-alt"></i>
+        Mis Citas - {{medico?.nombre}} {{medico?.apellido}}
+      </h1>
+      <p class="subtitle">Gestiona tus citas médicas programadas</p>
+    </div>
+  </div>
+
+  <!-- Messages -->
+  <div *ngIf="errorMessage" class="alert alert-error">
+    <i class="fas fa-exclamation-circle"></i>
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="successMessage" class="alert alert-success">
+    <i class="fas fa-check-circle"></i>
+    {{ successMessage }}
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="loading">
+    <i class="fas fa-spinner fa-spin"></i>
+    <span>Cargando citas...</span>
+  </div>
+
+  <!-- Citas List -->
+  <div *ngIf="!isLoading" class="citas-grid">
+    <div *ngIf="citas.length === 0" class="no-citas">
+      <i class="fas fa-calendar-times"></i>
+      <h3>No hay citas programadas</h3>
+      <p>No tienes citas asignadas en este momento.</p>
+    </div>
+
+    <div *ngFor="let cita of citas" 
+         class="cita-card"
+         [class]="getCardClass(cita.estado)">
+      
+      <!-- Cita Header -->
+      <div class="cita-header">
+        <div class="cita-date">
+          <i class="fas fa-calendar"></i>
+          <span class="date">{{ formatDate(cita.fecha) }}</span>
+          <span class="time">{{ cita.hora }}</span>
+        </div>
+        <div class="cita-status">
+          <span class="status-badge" [class]="getEstadoClass(cita.estado)">
+            {{ getEstadoDisplay(cita.estado) }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Patient Info -->
+      <div class="patient-info">
+        <h3>
+          <i class="fas fa-user"></i>
+          {{ cita.pacienteNombre }}
+        </h3>
+        <div class="patient-details">
+          <div class="detail-item">
+            <i class="fas fa-envelope"></i>
+            <span>{{ cita.pacienteEmail }}</span>
+          </div>
+          <div class="detail-item">
+            <i class="fas fa-phone"></i>
+            <span>{{ cita.pacienteTelefono }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Appointment Details -->
+      <div class="appointment-details">
+        <div class="detail-row">
+          <strong>Motivo de consulta:</strong>
+          <span>{{ cita.motivo }}</span>
+        </div>
+        <div class="detail-row">
+          <strong>Especialidad:</strong>
+          <span>{{ getEspecialidadDisplay(medico?.especialidad || '') }}</span>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="cita-actions">
+        <button 
+          *ngIf="canCompleteCita(cita)" 
+          class="btn btn-success"
+          (click)="completarCita(cita.id!)">
+          <i class="fas fa-check"></i>
+          Completar Cita
+        </button>
+        
+        <button 
+          *ngIf="cita.estado === 'COMPLETADA'" 
+          class="btn btn-info disabled">
+          <i class="fas fa-check-circle"></i>
+          Cita Completada
+        </button>
+
+        <button 
+          *ngIf="cita.estado === 'CANCELADA'" 
+          class="btn btn-secondary disabled">
+          <i class="fas fa-times-circle"></i>
+          Cita Cancelada
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

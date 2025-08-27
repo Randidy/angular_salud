@@ -1,0 +1,49 @@
+<div class="app-header">
+  <div class="container">
+    <h1>
+      <i class="fas fa-stethoscope"></i>
+      Salud Vital - Médico
+    </h1>
+    <a href="#" (click)="logout()" class="logout-btn">
+      <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+    </a>
+  </div>
+</div>
+
+<div class="container">
+  <h2 class="text-center mt-4 mb-4">Bienvenido, Dr. {{ currentUser?.name || 'Médico' }}</h2>
+
+  <div class="dashboard-grid">
+    <!-- Mis Citas -->
+    <a routerLink="/medico/citas" class="dashboard-card">
+      <i class="fas fa-calendar-check" style="color: #d32f2f;"></i>
+      <h3>Mis Citas</h3>
+      <p>Ver y completar citas asignadas</p>
+    </a>
+
+    <!-- Mis Recetas -->
+    <a routerLink="/medico/recetas" class="dashboard-card">
+      <i class="fas fa-prescription-bottle-alt" style="color: #d32f2f;"></i>
+      <h3>Mis Recetas</h3>
+      <p>Gestionar recetas médicas</p>
+    </a>
+
+    <!-- Medicamentos -->
+    <a routerLink="/medico/medicamentos" class="dashboard-card">
+      <i class="fas fa-pills" style="color: #d32f2f;"></i>
+      <h3>Medicamentos</h3>
+      <p>Consultar catálogo de medicamentos</p>
+    </a>
+
+    <!-- Mi Perfil -->
+    <a routerLink="/medico/perfil" class="dashboard-card">
+      <i class="fas fa-user-md" style="color: #d32f2f;"></i>
+      <h3>Mi Perfil</h3>
+      <p>Ver y editar información personal</p>
+    </a>
+  </div>
+</div>
+
+<div class="app-footer">
+  © 2025 Salud Vital - Sistema de Gestión Hospitalaria
+</div>

@@ -1,0 +1,99 @@
+<div class="container">
+  <div class="table-container">
+    
+    <div class="header-section">
+      <h1><i class="fas fa-users"></i> Pacientes Hospital</h1>
+      <a routerLink="/admin/dashboard" class="btn btn-secondary">
+        <i class="fas fa-house"></i> Volver al Inicio
+      </a>
+    </div>
+
+    <a routerLink="/admin/pacientes/nuevo" class="btn btn-success">
+      <i class="fas fa-plus"></i> Nuevo Paciente
+    </a>
+
+    <!-- Messages -->
+    <div *ngIf="successMessage" class="alert alert-success">
+      ✅ {{ successMessage }}
+    </div>
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      ❌ {{ errorMessage }}
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="isLoading" class="loading-container">
+      <i class="fas fa-spinner fa-spin"></i> Cargando pacientes...
+    </div>
+
+    <!-- Patients Table -->
+    <div *ngIf="!isLoading" class="table-responsive">
+      <table class="table table-hover text-center align-middle">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Identificación</th>
+            <th>Edad</th>
+            <th>Teléfono</th>
+            <th>Dirección</th>
+            <th>Alergias</th>
+            <th>Citas</th>
+            <th>Recetas</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let paciente of pacientes">
+            <td>{{ paciente.id }}</td>
+            <td>{{ paciente.nombre }}</td>
+            <td>{{ paciente.numeroIdentificacion }}</td>
+            <td>{{ paciente.edad || calculateAge(paciente.fechaNacimiento) }}</td>
+            <td>{{ paciente.telefono || '-' }}</td>
+            <td>{{ paciente.direccion || '-' }}</td>
+            <td>
+              <span *ngIf="!paciente.tieneAlergias">No</span>
+              <span *ngFor="let alergia of paciente.alergias" class="badge badge-alergia">
+                {{ alergia.nombre }}
+              </span>
+            </td>
+            <td>
+              <span class="badge badge-citas">
+                {{ paciente.citas?.length || 0 }}
+              </span>
+            </td>
+            <td>
+              <span class="badge badge-recetas">
+                {{ paciente.recetas?.length || 0 }}
+              </span>
+            </td>
+           <td class="actions">
+            <a 
+              [routerLink]="['/admin/pacientes/editar', paciente.id]" 
+              class="btn btn-warning btn-sm"
+              title="Editar paciente">
+              <i class="fas fa-pen"></i>
+            </a>
+            <button 
+              (click)="deletePaciente(paciente.id!)" 
+              class="btn btn-danger btn-sm"
+              title="Eliminar paciente">
+              <i class="fas fa-trash"></i>
+            </button>
+          </td>
+          </tr>
+          
+          <!-- Empty state -->
+          <tr *ngIf="pacientes.length === 0">
+            <td colspan="10" class="empty-state">
+              <i class="fas fa-users fa-3x"></i>
+              <p>No hay pacientes registrados</p>
+              <a routerLink="/admin/pacientes/nuevo" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Registrar primer paciente
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

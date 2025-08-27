@@ -1,0 +1,202 @@
+<div class="app-header">
+  <div class="container">
+    <h1>
+      <i class="fas fa-hospital"></i>
+      Salud Vital - Administrador
+    </h1>
+    <a href="#" (click)="logout()" class="logout-btn">
+      <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+    </a>
+  </div>
+</div>
+
+<div class="container">
+  <h2 class="text-center mt-4 mb-4">Bienvenido, {{ currentUser?.name || 'Administrador' }}</h2>
+
+  <div class="dashboard-grid">
+    <!-- Registrar Usuario -->
+    <a routerLink="/admin/usuarios/nuevo" class="dashboard-card">
+      <i class="fas fa-user-plus" style="color: #5feecf;"></i>
+      <h3>Registrar Usuario</h3>
+      <p>Crear nuevos usuarios del sistema</p>
+    </a>
+
+
+    <!-- Gestionar Médicos -->
+    <a routerLink="/admin/medicos" class="dashboard-card">
+      <i class="fas fa-user-md" style="color: #5feecf;"></i>
+      <h3>Gestionar Médicos</h3>
+      <p>Administrar información de médicos</p>
+    </a>
+
+    <!-- Gestionar Pacientes -->
+    <a routerLink="/admin/pacientes" class="dashboard-card">
+      <i class="fas fa-users" style="color: #5feecf;"></i>
+      <h3>Gestionar Pacientes</h3>
+      <p>Administrar información de pacientes</p>
+    </a>
+
+    <!-- Gestionar Medicamentos -->
+    <a routerLink="/admin/medicamentos" class="dashboard-card">
+      <i class="fas fa-pills" style="color: #5feecf;"></i>
+      <h3>Gestionar Medicamentos</h3>
+      <p>Catálogo de medicamentos</p>
+    </a>
+
+    <!-- Ver Citas -->
+    <a routerLink="/admin/citas" class="dashboard-card">
+      <i class="fas fa-calendar-check" style="color: #5feecf;"></i>
+      <h3>Ver Citas</h3>
+      <p>Supervisar todas las citas médicas</p>
+    </a>
+
+    <!-- Ver Recetas -->
+    <a routerLink="/admin/recetas" class="dashboard-card">
+      <i class="fas fa-prescription-bottle-alt" style="color: #5feecf;"></i>
+      <h3>Ver Recetas</h3>
+      <p>Supervisar recetas médicas</p>
+    </a>
+  </div>
+</div>
+
+<div class="app-footer">
+  © 2025 Salud Vital - Sistema de Gestión Hospitalaria
+</div>
+<style>
+/* Body */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: radial-gradient(ellipse at bottom, #0a0a1a 0%, #1c1c3b 100%);
+  color: #fff;
+}
+
+/* Header con glow giratorio */
+.app-header {
+  background: linear-gradient(90deg, #1c1c3b, #2a1c4d);
+  padding: 20px 0;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.7);
+  position: relative;
+  overflow: hidden;
+}
+
+.app-header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.03) 10%, transparent 80%);
+  animation: rotateGlow 25s linear infinite;
+}
+
+@keyframes rotateGlow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.app-header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  margin: auto;
+  position: relative;
+  z-index: 1; /* Para que el glow quede detrás */
+}
+
+.app-header h1 {
+  font-size: 24px;
+  color: #e0e0e0;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Botón Cerrar sesión elegante */
+.logout-btn {
+  background: #00b8d4;
+  padding: 8px 15px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: bold;
+  color: #fff; /* color normal */
+  transition: all 0.3s;
+  box-shadow: 0 0 10px #00e5ff;
+}
+
+.logout-btn:hover {
+  transform: scale(1.1); /* se agranda */
+  box-shadow: 0 0 20px #00e5ff, 0 0 30px #00b8d4; /* glow más intenso */
+  color: #222; /* texto más oscuro al pasar el mouse */
+}
+
+/* Bienvenida visible y centrada */
+.welcome-section {
+  text-align: center;
+  margin: 30px 0;
+  font-size: 22px;
+  color: #f5f5f5;
+}
+
+/* Dashboard estilo bloques */
+.dashboard-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 25px;
+  width: 90%;
+  margin: auto;
+}
+
+/* Cartas galácticas con glow suave */
+.dashboard-card {
+  background: rgba(20,20,40,0.85);
+  border-radius: 20px;
+  padding: 25px 15px;
+  width: 220px;
+  text-align: center;
+  color: #fff;
+  text-decoration: none;
+  transition: all 0.4s ease;
+  box-shadow: 0 0 10px rgba(0,229,255,0.3);
+  transform: perspective(1000px) rotateY(0deg);
+}
+
+.dashboard-card i {
+  font-size: 40px;
+  margin-bottom: 15px;
+  color: #00e5ff;
+}
+
+.dashboard-card h3 {
+  margin: 10px 0;
+  font-size: 18px;
+  color: #fff;
+}
+
+.dashboard-card p {
+  font-size: 13px;
+  color: #ccc;
+}
+
+.dashboard-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px rgba(0,229,255,0.5);
+}
+
+/* Footer sobrio */
+.app-footer {
+  background: linear-gradient(90deg, #2a1c4d, #1c1c3b);
+  color: #ccc;
+  text-align: center;
+  padding: 20px 0;
+  margin-top: 40px;
+  font-size: 14px;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.7);
+}
+</style>
+

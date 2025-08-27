@@ -1,0 +1,244 @@
+<div class="medico-recetas-container">
+  <!-- Header -->
+  <div class="header">
+    <div class="header-content">
+      <h1>
+        <i class="fas fa-prescription-bottle"></i>
+        Gestión de Recetas
+      </h1>
+      <p class="subtitle">Administra las recetas médicas emitidas</p>
+    </div>
+    
+    <div class="header-actions">
+      <button class="btn btn-primary" (click)="nuevaReceta()">
+        <i class="fas fa-plus"></i>
+        Nueva Receta
+      </button>
+    </div>
+  </div>
+
+  <!-- Messages -->
+  <div *ngIf="errorMessage" class="alert alert-error">
+    <i class="fas fa-exclamation-circle"></i>
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="successMessage" class="alert alert-success">
+    <i class="fas fa-check-circle"></i>
+    {{ successMessage }}
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="loading">
+    <i class="fas fa-spinner fa-spin"></i>
+    <span>Cargando recetas...</span>
+  </div>
+
+  <!-- Recetas List -->
+  <div *ngIf="!isLoading" class="recetas-grid">
+    <div *ngIf="recetas.length === 0" class="no-recetas">
+      <i class="fas fa-prescription-bottle-alt"></i>
+      <h3>No hay recetas emitidas</h3>
+      <p>No has emitido ninguna receta aún.</p>
+    </div>
+
+    <div *ngFor="let receta of recetas" class="receta-card">
+      
+      <!-- Receta Header -->
+      <div class="receta-header">
+        <div class="receta-info">
+          <h3>
+            <i class="fas fa-user"></i>
+            {{ receta.pacienteNombre }}
+          </h3>
+          <span class="fecha-emision">
+            <i class="fas fa-calendar-alt"></i>
+            {{ formatDate(receta.fechaEmision) }}
+          </span>
+        </div>
+        <div class="receta-id">
+          <span class="id-badge">
+            #{{ receta.id }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Medicamento Info -->
+      <div class="medicamento-info">
+        <div class="medicamento-header">
+          <i class="fas fa-pills"></i>
+          <h4>{{ receta.medicamentoNombre }}</h4>
+        </div>
+        <div class="medicamento-details">
+          <div class="detail-row">
+            <strong>Tipo:</strong>
+            <span>{{ receta.medicamentoTipo }}</span>
+          </div>
+          <div class="detail-row" *ngIf="receta.medicamentoDescripcion">
+            <strong>Descripción:</strong>
+            <span>{{ receta.medicamentoDescripcion }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Prescription Details -->
+      <div class="prescription-details">
+        <div class="detail-group">
+          <div class="detail-row">
+            <strong>Dosis:</strong>
+            <span class="dosis">{{ receta.dosis }}</span>
+          </div>
+          <div class="detail-row">
+            <strong>Frecuencia:</strong>
+            <span class="frecuencia">{{ receta.frecuencia }}</span>
+          </div>
+          <div class="detail-row">
+            <strong>Duración:</strong>
+            <span class="duracion">{{ receta.duracion }}</span>
+          </div>
+        </div>
+        
+        <div *ngIf="receta.instrucciones" class="instrucciones">
+          <strong>Instrucciones especiales:</strong>
+          <p>{{ receta.instrucciones }}</p>
+        </div>
+      </div>
+
+      <!-- Patient Contact -->
+      <div class="patient-contact">
+        <div class="contact-item">
+          <i class="fas fa-envelope"></i>
+          <span>{{ receta.pacienteEmail }}</span>
+        </div>
+        <div class="contact-item" *ngIf="receta.pacienteTelefono">
+          <i class="fas fa-phone"></i>
+          <span>{{ receta.pacienteTelefono }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Nueva Receta Modal -->
+<div *ngIf="showNuevaRecetaModal" class="modal-overlay" (click)="closeNuevaRecetaModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>
+        <i class="fas fa-prescription-bottle"></i>
+        Nueva Receta
+      </h2>
+      <button class="close-btn" (click)="closeNuevaRecetaModal()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <form [formGroup]="recetaForm" (ngSubmit)="onSubmitReceta()" class="receta-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="pacienteId">Paciente ID *</label>
+          <input 
+            type="number" 
+            id="pacienteId" 
+            formControlName="pacienteId"
+            class="form-control"
+            [class.is-invalid]="recetaForm.get('pacienteId')?.invalid && recetaForm.get('pacienteId')?.touched"
+            placeholder="ID del paciente">
+          <div *ngIf="recetaForm.get('pacienteId')?.invalid && recetaForm.get('pacienteId')?.touched" class="invalid-feedback">
+            <small *ngIf="recetaForm.get('pacienteId')?.errors?.['required']">El ID del paciente es requerido</small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="medicamentoId">Medicamento *</label>
+          <select 
+            id="medicamentoId" 
+            formControlName="medicamentoId"
+            class="form-control"
+            [class.is-invalid]="recetaForm.get('medicamentoId')?.invalid && recetaForm.get('medicamentoId')?.touched">
+            <option value="">Seleccione un medicamento</option>
+            <option *ngFor="let med of medicamentos" [value]="med.id">
+              {{ med.nombre }} - {{ med.tipo }}
+            </option>
+          </select>
+          <div *ngIf="recetaForm.get('medicamentoId')?.invalid && recetaForm.get('medicamentoId')?.touched" class="invalid-feedback">
+            <small *ngIf="recetaForm.get('medicamentoId')?.errors?.['required']">El medicamento es requerido</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="dosis">Dosis *</label>
+          <input 
+            type="text" 
+            id="dosis" 
+            formControlName="dosis"
+            class="form-control"
+            [class.is-invalid]="recetaForm.get('dosis')?.invalid && recetaForm.get('dosis')?.touched"
+            placeholder="Ej: 500mg">
+          <div *ngIf="recetaForm.get('dosis')?.invalid && recetaForm.get('dosis')?.touched" class="invalid-feedback">
+            <small *ngIf="recetaForm.get('dosis')?.errors?.['required']">La dosis es requerida</small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="frecuencia">Frecuencia *</label>
+          <input 
+            type="text" 
+            id="frecuencia" 
+            formControlName="frecuencia"
+            class="form-control"
+            [class.is-invalid]="recetaForm.get('frecuencia')?.invalid && recetaForm.get('frecuencia')?.touched"
+            placeholder="Ej: Cada 8 horas">
+          <div *ngIf="recetaForm.get('frecuencia')?.invalid && recetaForm.get('frecuencia')?.touched" class="invalid-feedback">
+            <small *ngIf="recetaForm.get('frecuencia')?.errors?.['required']">La frecuencia es requerida</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="duracion">Duración *</label>
+        <input 
+          type="text" 
+          id="duracion" 
+          formControlName="duracion"
+          class="form-control"
+          [class.is-invalid]="recetaForm.get('duracion')?.invalid && recetaForm.get('duracion')?.touched"
+          placeholder="Ej: 7 días">
+        <div *ngIf="recetaForm.get('duracion')?.invalid && recetaForm.get('duracion')?.touched" class="invalid-feedback">
+          <small *ngIf="recetaForm.get('duracion')?.errors?.['required']">La duración es requerida</small>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="instrucciones">Instrucciones Especiales</label>
+        <textarea 
+          id="instrucciones" 
+          formControlName="instrucciones"
+          class="form-control"
+          rows="3"
+          placeholder="Instrucciones adicionales (opcional)"></textarea>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" (click)="closeNuevaRecetaModal()">
+          <i class="fas fa-times"></i>
+          Cancelar
+        </button>
+        <button 
+          type="submit" 
+          class="btn btn-primary"
+          [disabled]="recetaForm.invalid || isSubmitting">
+          <span *ngIf="!isSubmitting">
+            <i class="fas fa-save"></i>
+            Emitir Receta
+          </span>
+          <span *ngIf="isSubmitting">
+            <i class="fas fa-spinner fa-spin"></i>
+            Emitiendo...
+          </span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

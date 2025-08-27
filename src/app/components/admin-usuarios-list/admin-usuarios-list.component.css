@@ -1,0 +1,138 @@
+
+/* Contenedor galáctico */
+.list-container {
+  background: rgba(20,20,40,0.85);
+  padding: 25px;
+  border-radius: 20px;
+  max-width: 900px;
+  margin: 20px auto;
+  box-shadow: 0 0 15px rgba(0,229,255,0.3);
+  color: #fff;
+}
+
+/* Título */
+h2 {
+  color: #00e5ff;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* Tabla */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+th, td {
+  border: 1px solid rgba(0,229,255,0.3);
+  padding: 12px 10px;
+  text-align: center;
+  font-size: 14px;
+}
+
+th {
+  background-color: rgba(0,229,255,0.1);
+  color: #00b8d4;
+  font-weight: bold;
+}
+
+tr:nth-child(even) {
+  background-color: rgba(0,229,255,0.05);
+}
+
+/* Mensajes */
+.message {
+  margin: 10px 0;
+  color: #4caf50;
+  font-weight: bold;
+}
+
+.error {
+  margin: 10px 0;
+  color: #ff5252;
+  font-weight: bold;
+}
+
+/* Grupo de botones */
+.btn-group {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-start;
+}
+
+/* Botones generales */
+.btn {
+  padding: 8px 12px;
+  border-radius: 50px;
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Botón añadir */
+.btn-add {
+  background-color: #00b8d4;
+}
+
+.btn-add:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px #00e5ff, 0 0 30px #00b8d4;
+}
+
+/* Botón volver */
+.btn-back {
+  background-color: #555;
+}
+
+.btn-back:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(0,229,255,0.5);
+}
+
+/* Botón eliminar */
+.btn-delete {
+  background-color: #cc0000;
+  border: none;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 50px;
+  font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.3s;
+}
+
+.btn-delete:hover {
+  background-color: #990000;
+  transform: scale(1.1);
+  box-shadow: 0 0 15px #ff5252;
+}
+
+/* Botón editar */
+.btn-edit {
+  background-color: #f1c40f;
+  color: #222;
+  padding: 6px 10px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: bold;
+  margin-left: 5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.3s;
+}
+
+.btn-edit:hover {
+  background-color: #d4ac0d;
+  transform: scale(1.1);
+  box-shadow: 0 0 15px #fff176;
+}

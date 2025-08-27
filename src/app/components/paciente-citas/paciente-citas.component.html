@@ -1,0 +1,187 @@
+<div class="app-header" style="background: #1976d2;">
+  <div class="container">
+    <h1>
+      <i class="fas fa-calendar-check"></i>
+      Mis Citas Médicas
+    </h1>
+    <a routerLink="/paciente/dashboard" class="logout-btn" style="color: #1976d2;">
+      <i class="fas fa-arrow-left"></i> Volver al Panel
+    </a>
+  </div>
+</div>
+
+<div class="container">
+  <div class="content-section">
+    
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+      <button (click)="solicitarCita()" class="btn btn-primary">
+        <i class="fas fa-plus"></i> Solicitar Nueva Cita
+      </button>
+      <button (click)="loadCitas()" class="btn btn-secondary">
+        <i class="fas fa-refresh"></i> Actualizar
+      </button>
+    </div>
+
+    <!-- Messages -->
+    <div *ngIf="successMessage" class="alert alert-success">
+      ✅ {{ successMessage }}
+    </div>
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      ❌ {{ errorMessage }}
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="isLoading" class="loading-container">
+      <i class="fas fa-spinner fa-spin"></i> Cargando citas...
+    </div>
+
+    <!-- Citas List -->
+    <div *ngIf="!isLoading" class="citas-grid">
+      
+      <!-- Empty State -->
+      <div *ngIf="citas.length === 0" class="empty-state">
+        <i class="fas fa-calendar-times fa-3x"></i>
+        <h3>No tienes citas programadas</h3>
+        <p>Solicita tu primera cita médica con nuestros especialistas</p>
+        <button (click)="solicitarCita()" class="btn btn-primary">
+          <i class="fas fa-plus"></i> Solicitar Primera Cita
+        </button>
+      </div>
+
+      <!-- Cita Cards -->
+      <div *ngFor="let cita of citas" class="cita-card" [ngClass]="getCardClass(cita.estado)">
+        <div class="cita-header">
+          <div class="fecha-hora">
+            <i class="fas fa-calendar"></i>
+            <span class="fecha">{{ formatDate(cita.fecha) }}</span>
+            <span class="hora">{{ cita.hora }}</span>
+          </div>
+          <div class="estado-badge" [ngClass]="getEstadoClass(cita.estado)">
+            {{ getEstadoDisplay(cita.estado) }}
+          </div>
+        </div>
+
+        <div class="cita-body">
+          <div class="medico-info">
+            <i class="fas fa-user-md"></i>
+            <div>
+              <strong>{{ cita.medico?.nombre }} {{ cita.medico?.apellido }}</strong>
+              <small>{{ getEspecialidadDisplay(cita.medico?.especialidad || '') }}</small>
+            </div>
+          </div>
+
+          <div class="motivo">
+            <i class="fas fa-notes-medical"></i>
+            <span>{{ cita.motivo }}</span>
+          </div>
+
+          <div class="tarifa">
+            <i class="fas fa-dollar-sign"></i>
+            <span>${{ cita.tarifaAplicada }}</span>
+          </div>
+        </div>
+
+        <div class="cita-actions" *ngIf="cita.estado === 'PROGRAMADA'">
+          <button 
+            (click)="modificarCita(cita)"
+            class="btn btn-warning btn-sm"
+            [disabled]="!canModifyCita(cita)"
+            title="Modificar cita">
+            <i class="fas fa-edit"></i>
+          </button>
+          <button 
+            (click)="cancelarCita(cita.id!)"
+            class="btn btn-danger btn-sm"
+            [disabled]="!canModifyCita(cita)"
+            title="Cancelar cita">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Solicitar Cita Modal -->
+<div *ngIf="showSolicitarModal" class="modal-overlay" (click)="closeSolicitarModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Solicitar Nueva Cita</h3>
+      <button (click)="closeSolicitarModal()" class="btn-close">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <form [formGroup]="citaForm" (ngSubmit)="onSubmitCita()" class="modal-body">
+      
+      <!-- Médico -->
+      <div class="form-group">
+        <label for="medico">Médico:</label>
+        <select id="medico" formControlName="medicoId" class="form-control">
+          <option value="">Seleccione un médico</option>
+          <option *ngFor="let medico of medicosDisponibles" [value]="medico.id">
+            Dr. {{ medico.nombre }} {{ medico.apellido }} - {{ getEspecialidadDisplay(medico.especialidad) }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Fecha -->
+      <div class="form-group">
+        <label for="fecha">Fecha:</label>
+        <input 
+          type="date" 
+          id="fecha" 
+          formControlName="fecha" 
+          class="form-control"
+          [min]="getMinDate()">
+      </div>
+
+      <!-- Hora -->
+      <div class="form-group">
+        <label for="hora">Hora:</label>
+        <select id="hora" formControlName="hora" class="form-control">
+          <option value="">Seleccione una hora</option>
+          <option value="08:00">08:00</option>
+          <option value="09:00">09:00</option>
+          <option value="10:00">10:00</option>
+          <option value="11:00">11:00</option>
+          <option value="14:00">14:00</option>
+          <option value="15:00">15:00</option>
+          <option value="16:00">16:00</option>
+          <option value="17:00">17:00</option>
+        </select>
+      </div>
+
+      <!-- Motivo -->
+      <div class="form-group">
+        <label for="motivo">Motivo de la consulta:</label>
+        <textarea 
+          id="motivo" 
+          formControlName="motivo" 
+          class="form-control"
+          rows="3"
+          placeholder="Describa brevemente el motivo de su consulta"></textarea>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" (click)="closeSolicitarModal()" class="btn btn-secondary">
+          Cancelar
+        </button>
+        <button 
+          type="submit" 
+          class="btn btn-primary"
+          [disabled]="citaForm.invalid || isSubmitting">
+          <span *ngIf="!isSubmitting">Solicitar Cita</span>
+          <span *ngIf="isSubmitting">
+            <i class="fas fa-spinner fa-spin"></i> Solicitando...
+          </span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="app-footer">
+  © 2025 Salud Vital - Panel del Paciente
+</div>

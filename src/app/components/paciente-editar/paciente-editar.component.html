@@ -1,0 +1,50 @@
+<div class="container mt-4">
+  <div class="card shadow-sm">
+    <div class="card-header bg-warning text-white">
+      <h3>Editar Paciente</h3>
+    </div>
+    <div class="card-body">
+
+      <div *ngIf="successMessage" class="alert alert-success">
+        ✅ {{ successMessage }}
+      </div>
+      <div *ngIf="errorMessage" class="alert alert-danger">
+        ❌ {{ errorMessage }}
+      </div>
+
+      <div *ngIf="isLoading" class="text-center my-3">
+        <i class="fas fa-spinner fa-spin"></i> Cargando paciente...
+      </div>
+
+      <form [formGroup]="pacienteForm" (ngSubmit)="actualizarPaciente()" *ngIf="!isLoading">
+
+        <div class="mb-3">
+          <label class="form-label">Nombre</label>
+          <input type="text" formControlName="nombre" class="form-control">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Número de Identificación</label>
+          <input type="text" formControlName="numeroIdentificacion" class="form-control">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Fecha de Nacimiento</label>
+          <input type="date" formControlName="fechaNacimiento" class="form-control">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Teléfono</label>
+          <input type="text" formControlName="telefono" class="form-control">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Dirección</label>
+          <input type="text" formControlName="direccion" class="form-control">
+        </div>
+
+        <button type="submit" class="btn btn-warning w-100">Actualizar Paciente</button>
+      </form>
+    </div>
+  </div>
+</div>
